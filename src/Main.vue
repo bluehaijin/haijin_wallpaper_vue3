@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup name="Main">
-import Header from './Header.vue';
+import Header from './Header_.vue';
 
 
 </script>

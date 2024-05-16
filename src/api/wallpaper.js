@@ -5,3 +5,11 @@ import { transPrams } from "../utils";
 export function getAllType(){
     return request.post("/type",null,{showLoading:true})
 }
+
+// 获取详情
+export function getDetailByTypeId(typeId){
+    let data = {
+        typeId
+    }
+    return request.get("/",{params:data},{showLoading:true})
+}

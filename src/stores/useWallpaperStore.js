@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia';
-import {getAllType} from '../api/wallpaper.js'
+import {getAllType,getDetailByTypeId} from '../api/wallpaper.js'
 import {ref} from 'vue';
 
 // 定义了一个仓库
@@ -16,6 +16,25 @@ export const useWallpaperStore = defineStore("wallpaper",()=>{
         })
     }
 
-	return {typeInfo,getAllTypeFunc};
+    // 壁纸详情信息
+	const wallpaperDetail = ref({
+        records:[]
+    });
+
+    // 壁纸详情信息查询
+    const getDetailFunc = (typeId)=>{
+        getDetailByTypeId(typeId).then(res=>{
+            wallpaperDetail.value = res;
+            console.log(res)
+        })
+    }
+
+	return {
+        typeInfo,
+        getAllTypeFunc,
+
+        wallpaperDetail,
+        getDetailFunc,
+    };
 	
 })
