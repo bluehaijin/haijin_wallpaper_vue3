@@ -12,7 +12,6 @@ export const useWallpaperStore = defineStore("wallpaper",()=>{
     const getAllTypeFunc = ()=>{
         getAllType().then(res=>{
             typeInfo.value = res;
-            console.log(res)
         })
     }
 
@@ -22,10 +21,9 @@ export const useWallpaperStore = defineStore("wallpaper",()=>{
     });
 
     // 壁纸详情信息查询
-    const getDetailFunc = (typeId)=>{
-        getDetailByTypeId(typeId).then(res=>{
+    const getDetailFunc = (currentPage,typeId)=>{
+        getDetailByTypeId(currentPage,typeId).then(res=>{
             wallpaperDetail.value = res;
-            console.log(res)
         })
     }
 

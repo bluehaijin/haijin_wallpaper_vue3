@@ -7,8 +7,9 @@ export function getAllType(){
 }
 
 // 获取详情
-export function getDetailByTypeId(typeId){
+export function getDetailByTypeId(currentPage,typeId){
     let data = {
+        currentPage,
         typeId
     }
     return request.get("/",{params:data},{showLoading:true})
