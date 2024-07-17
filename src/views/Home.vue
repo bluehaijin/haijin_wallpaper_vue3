@@ -1,13 +1,14 @@
 <template>
     <div>
-      <Header @refresh="changeDetailFunc" />
+      <Header @refresh="changeDetailFunc" @search="changeDetailSeatchFunc"  />
       <div class="image-gallery">
         <ImageCard v-for="detail in wallpaperDetails" :key="detail.id" :image="detail" />
       </div>
       <div class="pagination">
         <button @click="prevPage" :disabled="currentPage === 1">上一页</button>
         <span>第 {{ currentPage }} 页</span>
-        <button @click="nextPage" :disabled="currentPage === totalPages">下一页</button>
+        <button @click="nextPage" :disabled="currentPage === store.wallpaperDetail.pageSize">下一页</button>
+        <span>共 {{ store.wallpaperDetail.pageSize }} 页</span>
       </div>
     </div>
   </template>
@@ -26,14 +27,32 @@
 
   const typeId = ref(null)
 
+  const nameRef = ref(null)
+
   const changeDetailFunc = (id) =>{
     typeId.value = id
     currentPage.value = 1
-    store.getDetailFunc(currentPage.value,id)
+    nameRef.value = null
+    store.getDetailFunc(currentPage.value,id,nameRef.value)
+  }
+
+  const changeDetailSeatchFunc = (name) =>{
+    typeId.value = null
+    currentPage.value = 1
+    nameRef.value = name
+    store.getDetailFunc(currentPage.value,typeId.value,name)
+  }
+
+  const changeDetailDefaultFunc = () =>{
+    typeId.value = null
+    currentPage.value = 1
+    nameRef.value = null
+    store.getDetailFunc(currentPage.value,typeId.value ,nameRef.value)
   }
 
 onMounted(()=>{
-  changeDetailFunc()
+  console.log('onMounted')
+  changeDetailDefaultFunc()
 })
 
 const currentPage = ref(1);
@@ -47,9 +66,9 @@ const paginatedImages = computed(() => {
 });
 
 const nextPage = () => {
-  if (currentPage.value < totalPages.value) {
+  if (currentPage.value < store.wallpaperDetail.pageSize) {
     currentPage.value += 1;
-    store.getDetailFunc(currentPage.value,typeId.value);
+    store.getDetailFunc(currentPage.value,typeId.value,nameRef.value);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 };
@@ -57,7 +76,7 @@ const nextPage = () => {
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value -= 1;
-    store.getDetailFunc(currentPage.value,typeId.value);
+    store.getDetailFunc(currentPage.value,typeId.value,nameRef.value);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 };

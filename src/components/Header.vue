@@ -1,6 +1,11 @@
 <template>
     <header class="header">
       <input type="text" v-model="searchQuery" placeholder="清纯美女" />
+        <div class="footer-button-box" @click="changeName">
+          <span class="footer-button-span">
+            搜索
+          </span>
+        </div>
       <nav>
         <div class="item-box" v-for="item in wallpaperTypeinfos" :key="item.id">
             <a href="#" @click="changeType(item.id)">{{item.typeName}}</a>
@@ -14,7 +19,7 @@
   import {useWallpaperStore} from '../stores/useWallpaperStore.js'
 	const store = useWallpaperStore();
 
-    const emit = defineEmits(['refresh'])
+    const emit = defineEmits(['refresh','search'])
 
   // 壁纸类型信息
   const wallpaperTypeinfos =  computed(()=>{
@@ -22,7 +27,12 @@
   })
 
   const changeType = (id) =>{
+    searchQuery.value = null
     emit('refresh',id)
+  }
+
+  const changeName = () => {
+    emit('search',searchQuery.value)
   }
 
 onMounted(()=>{
@@ -31,7 +41,7 @@ onMounted(()=>{
   const searchQuery = ref('');
   </script>
   
-  <style scoped>
+  <style lang="scss" scoped>
   .header {
     display: flex;
     flex-direction: column;
@@ -80,5 +90,33 @@ onMounted(()=>{
       margin-bottom: 0;
     }
   }
+    
+    .footer-button-box{
+      width: 130px;
+      height: 32px;
+      background: #74BDB0;
+      border-radius: 50px;
+      
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      margin-left: 30px;
+      
+      .footer-button-span{
+        // width: 576rpx;
+        height: 48px;
+        font-size: 1em;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #FFFFFF;
+        line-height: 48px;
+      }
+      cursor: pointer;
+    }
+    
+    .footer-button-box:active{
+      background-color: rgb(229, 229, 229);
+    }
   </style>
   
